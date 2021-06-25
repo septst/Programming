@@ -1,0 +1,60 @@
+using System;
+using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+
+class Solution {
+    public int solution(int[] A) {
+        var minIndex = Array.IndexOf(A, 
+                A.GroupBy(a => a).Where(i => i.Count() > (A.Length/2)).FirstOrDefault()?.Key);
+
+        return minIndex;
+    }
+}
+
+================================================================================================================
+
+class Solution {
+    public int solution(int[] A) {
+        var N = A.Length;
+        //var halfSize = ( N % 2 == 0) ? (N / 2) : (N / 2) + 1;
+
+        if(N == 1)
+        {
+            return 0;
+        }
+
+        var halfSize = N / 2;
+        var visited = new List<int>();
+        var dominatorIndex = -1;
+        for(int i = 0; i < N - 1; i++)
+        {
+            var number = A[i];
+            var count = 1;
+            if(!visited.Contains(number))
+            {
+                for(int j = i + 1; j < N; j++)
+                {
+                    if(A[j] == number)
+                    {
+                        //Console.WriteLine($"Visiting {number}");
+                        count++;
+                        visited.Add(number);
+                    }
+                }
+            }
+
+            //Console.WriteLine($"Count {count} and half size is {halfSize}");
+
+            if(count > halfSize)
+            {
+                dominatorIndex = i;
+                break;
+            }
+        }
+
+        return dominatorIndex;
+    }
+}

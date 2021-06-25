@@ -1,0 +1,35 @@
+using System;
+using System.Linq;
+// you can also use other imports, for example:
+// using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int solution(int X, int[] A) {
+        // write your code in C# 6.0 with .NET 4.5 (Mono)
+
+        if(A.Length == 1)
+        {
+            return A[0] == X ? 0 : -1;
+        }
+       
+        var leafFalls = Enumerable.Repeat(-1, X).ToArray();
+        var total = X;
+
+        //Console.WriteLine($"{string.Join(",", leafFalls)} ++++++ {total}");
+        for(int i = 0; i < A.Length; i++)
+        {
+            if(A[i] <= X && leafFalls[A[i]-1] == -1)
+            {
+                leafFalls[A[i]-1] = i;
+                total--;
+            }
+        }
+
+        //Console.WriteLine($"{string.Join(",", leafFalls)} ++++++ {total}");
+
+        return total == 0 ? leafFalls.Max(f => f) : -1;
+    }
+}

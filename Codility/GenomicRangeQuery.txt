@@ -1,0 +1,67 @@
+using System;
+using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int[] solution(string S, int[] P, int[] Q) {
+
+        var nucleotides = new string[]{"A", "C", "G", "T"};
+        var genomes = new int [4, S.Length + 1];
+
+        for (int i = 0; i < S.Length; i++)
+            {
+                int a = 0, c = 0, g = 0, t = 0;
+
+                if (S[i] == 'A')
+                {
+                    a = 1;
+                }
+                else if (S[i] == 'C')
+                {
+                    c = 2;
+                }
+                else if (S[i] == 'G')
+                {
+                    g = 3;
+                }
+                else if (S[i] == 'T')
+                {
+                    t = 4;
+                }
+
+                genomes[0, i + 1] = genomes[0, i] + a;
+                genomes[1, i + 1] = genomes[1, i] + c;
+                genomes[2, i + 1] = genomes[2, i] + g;
+                genomes[3, i + 1] = genomes[3, i] + t;
+
+            }
+
+        var n = P.Length;
+        var sol = new int[n];
+
+        for(int i = 0; i < n; i++)
+        {
+            for(int j = 0; j < 4; j++)
+            {
+                if(genomes[j, Q[i] + 1] - genomes[j, P[i]] > 0)
+                {
+                   sol[i] = sol[i] > 0 ? 
+                                sol[i] > j + 1 ?    
+                                         j + 1 :
+                                         sol[i] :
+                                j + 1; 
+                }
+            }
+
+            
+        }
+       
+
+      
+        return sol;
+
+      
+    }
+}

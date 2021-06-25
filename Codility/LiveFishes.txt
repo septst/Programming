@@ -1,0 +1,38 @@
+using System;
+using System.Collections.Generic;
+
+class Solution {
+    public int solution(int[] A, int[] B) {
+
+        Stack<int> downstreamSchool = new Stack<int>();
+        int liveFishes =  0;
+        for(int i = 0; i < A.Length; i++)
+        {
+            if(B[i] == 1)
+            {
+                downstreamSchool.Push(A[i]);
+            }
+            else if(downstreamSchool.Count > 0)
+            {
+                while(downstreamSchool.Count > 0 && downstreamSchool.Peek() < A[i])
+                {
+                     downstreamSchool.Pop();   
+                }
+                
+                if (downstreamSchool.Count == 0)
+                {
+                    liveFishes++;
+                }
+            }
+            else
+            {
+                liveFishes++;
+            }
+
+            //Console.WriteLine($"Live fishes {liveFishes} >>>> {downstreamSchool.Count}");
+        }
+
+        return liveFishes + downstreamSchool.Count;
+
+    }
+}

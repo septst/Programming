@@ -1,0 +1,64 @@
+using System;
+using System.Collections.Generic;
+
+class Solution {
+    public int solution(int[] A) {
+        var N = A.Length;
+        QuickSort(A, 0, N - 1);
+        //Console.WriteLine(string.Join(" ", A));
+        var result = 1;
+        if(A[N - 1] >= 0)
+        {
+            result *= A[N - 1];
+            result *= (A[0] * A[1]) > (A[N - 3] * A[N - 2]) ? 
+                        A[0] * A[1]   :
+                        A[N - 3] * A[N - 2];
+        }
+        else
+        {
+            result = A[N - 1] * A[N - 2] * A[N - 3];
+        }
+        
+
+        return result;
+
+    }
+
+    private void QuickSort(int[] A, int low, int high)
+    {
+        if(low < high)
+        {
+            var pi = Partition(A, low, high);
+
+            QuickSort(A, low, pi - 1);
+
+            QuickSort(A, pi + 1, high);
+        }
+    }
+
+    private int Partition(int[] A, int low, int high)
+    {
+        var pivot = high;
+        var lastMaxIndex = low - 1;
+
+        for(int i = low; i < high; i++)
+        {
+            if(A[i] <= A[pivot])
+            {
+                lastMaxIndex += 1;
+                Swap(ref A[i], ref A[lastMaxIndex]);
+            }
+        }
+
+        Swap(ref A[lastMaxIndex + 1], ref A[pivot]);
+
+        return lastMaxIndex + 1;
+    }
+
+    private void Swap (ref int a, ref int b)
+    {
+        var temp = a;
+        a = b;
+        b = temp;
+    }
+}

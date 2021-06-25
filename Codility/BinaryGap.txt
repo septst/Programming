@@ -1,0 +1,87 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+// you can also use other imports, for example:
+// using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    private List<int> counts = new List<int>();
+
+    public int solution(int N) {
+        var binary = GetBinaryNumber(N);
+        
+        var count = 0;
+        CountGaps(binary, 0, ref count);
+
+        var largest  = FindTheLargestCount();
+        //Console.WriteLine(largest);
+        return largest;
+    }
+
+    private bool CountGaps(int[] binary, int index, ref int count){
+
+        for(int i = 0; i <= binary.GetLength(0); i++)
+        {
+            int j = i + 1;
+            //Console.WriteLine(" i - {0} and j - {1}", i, j);
+            if(j < binary.GetLength(0)){
+                if(binary[j] == 0){
+                    count++;
+                }
+                else if(binary[j] == 1)
+                {
+                    counts.Add(count);
+                    count = 0;
+                }
+            }
+        }
+        return true;
+    }
+
+    private int[] GetBinaryNumber (int N){
+        int rem = 0;
+        int quo = N;
+        
+        List<int> rems = new List<int>();
+
+        for(int i = 0; quo >= 2; i++ ){
+            
+            rem = quo % 2;
+            quo = quo / 2;
+
+            rems.Add(rem);
+            
+        }
+
+        rems.Add(quo);
+
+        int[] binary = new int[rems.Count];
+        int j = 0;
+
+        for(int i = rems.Count-1; i >=0; i--){
+         
+            if(j < binary.GetLength(0)){
+                binary[j++] = rems[i];
+            }
+        }
+
+        //Console.WriteLine("The binary is {0}", string.Join(" ", binary));
+
+        return binary;
+    }
+
+    private int FindTheLargestCount(){
+        var largest = 0;
+        for(int i = 0 ; i < counts.Count ; i++){
+            if(largest < counts[i])
+            {
+                largest = counts[i];
+            }
+        }
+
+        return largest;
+    }
+}

@@ -1,0 +1,61 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+// you can also use other imports, for example:
+// using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int solution(string S) {
+        // write your code in C# 6.0 with .NET 4.5 (Mono)
+        char[] openBrackets = new char[] {'{', '[', '('};
+        char[] closedBrackets = new char[] {'}', ']', ')'};
+        char[] allBrackets = new char[openBrackets.Length + closedBrackets.Length];
+        Array.Copy(openBrackets, allBrackets, openBrackets.Length);
+        Array.Copy(closedBrackets, 0, allBrackets, openBrackets.Length, closedBrackets.Length);
+        Dictionary<char,char> charMap = new Dictionary<char, char>();
+        charMap.Add('{', '}');
+        charMap.Add('[', ']');
+        charMap.Add('(', ')');
+        Stack stack = new Stack();
+
+        char[] chars = S.ToCharArray();
+        for(int i  = 0; i < chars.Length; i++)
+        {
+            //Console.WriteLine($"Parsing {chars[i]} ");
+            //if(Array.IndexOf(allBrackets, chars[i]) > 0)
+            {
+                if(Array.IndexOf(openBrackets, chars[i]) > -1)
+                {
+                    stack.Push(chars[i]);
+                    //Console.WriteLine($"Pushed {chars[i]} to stack");
+                }
+                else if(Array.IndexOf(closedBrackets, chars[i]) > -1)
+                {
+                    //PrintValues( stack, '\t' );
+                    if( stack.Count > 0 &&
+                      charMap[(char)stack.Peek()] == chars[i])
+                    {
+                        //Console.WriteLine($"Pop {charMap[(char)stack.Peek()]}");
+                        stack.Pop();
+                    }
+                    else
+                    {
+                        return 0;
+                    }
+                }
+            }
+        }
+
+
+        return stack.Count == 0 ?  1 : 0;
+    }
+
+    public static void PrintValues( IEnumerable myCollection, char mySeparator )  {
+      foreach ( Object obj in myCollection )
+         Console.Write( "{0}{1}", mySeparator, obj );
+      Console.WriteLine();
+   }
+}

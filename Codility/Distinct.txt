@@ -1,0 +1,138 @@
+using System;
+// you can also use other imports, for example:
+// using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int solution(int[] A) {
+        var N = A.Length;
+        if(N <= 0)
+        {
+            return 0;
+        }
+
+        //Console.WriteLine($"Brefore sorting: {string.Join( " ", A)}");
+        QuickSort(A, 0 , N - 1);
+        //Console.WriteLine($"After sorting: {string.Join( " ", A)}");
+
+        var count = 1;
+        for(int i = 1; i < N; i++)
+        {
+            if(A[i - 1] != A[i])
+            {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    private int Partition( int [] A, int low , int high)
+    {
+        var pivot = high;
+        var greater = low -1;
+
+        for(int i = low; i < high; i++)
+        {
+            if(A[i] <= A[pivot])
+            {
+                greater += 1;
+                Swap(ref A[i], ref A[greater]);
+            }
+        }
+        greater++;
+        Swap(ref A[greater], ref A[pivot]);
+        return greater;
+    }
+
+    private void QuickSort( int [] A, int low , int high)
+    {
+        if(low < high)
+        {
+            var partition = Partition(A, low, high);
+
+            QuickSort(A, low, partition - 1);
+            QuickSort(A, partition + 1, high);
+        }
+    }
+
+    private void Swap(ref int a, ref int b)
+    {
+        var temp = a;
+        a = b;
+        b = temp;
+    }
+}
+
+-----------------------------------------------------------
+
+
+
+using System;
+using System.Collections.Generic;
+
+
+class Solution {
+    public int solution(int[] A) {
+        var n = A.Length;
+        BubbleSort(A);
+        var count = 1;
+        for(int i = 1; i < n; i++)
+        {
+            if(A[i-1] != A[i])
+            {
+                count++;
+            }
+        }
+        return count;
+    }
+
+
+    private void BubbleSort(int[] A)
+    {
+        var n = A.Length;
+        for(int i = 0; i < n - 1; i++)
+        {
+            var swapped = false;
+            for(int j = 0; j < n - i - 1; j++)
+            {
+                if(A[j] > A[j + 1])
+                {
+                    var temp = A[j+1];
+                    A[j + 1] = A[j];
+                    A[j] = temp;
+                    swapped = true;
+                }
+                Console.WriteLine(string.Join( " ", A));
+            }
+            Console.WriteLine();
+            if(!swapped)
+            {
+                break;
+            }
+        }
+    }
+
+    private void SelectionSort(int[] A)
+    {
+        var n = A.Length;
+        var min_index = 0;
+        for(int i = 0; i < n - 1; i++)
+        {
+            min_index = i;
+            for(int j = i + 1; j < n; j++)
+            {
+                if(A[j] < A[min_index])
+                {
+                    min_index = j;
+                }
+            }
+
+            var temp = A[i];
+            A[i] = A[min_index];
+            A[min_index] = temp;
+        }
+    }
+}

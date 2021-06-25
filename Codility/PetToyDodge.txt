@@ -1,0 +1,65 @@
+using System;
+using System.Linq;
+// you can also use other imports, for example:
+// using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public bool solution(int[] P, int[] T, int[] A, int[] B) {
+        // write your code in C# 6.0 with .NET 4.5 (Mono)
+        for(int i = 0; i < P.GetLength(0); i++){
+            //if pet-toy mismatch
+            if(P[i] != T[i]){
+                //Console.WriteLine("i - {0}", i);     
+                if (!TrySwap( P, T, A, B, i, i))
+                {
+                    return false;    
+                }             
+            }
+        }
+
+        return true;
+
+    }
+
+    private bool TrySwap(   int[] P, int[] T,
+                            int[] A, int[] B, 
+                            int origin, int match)
+    {
+        int aPersonIndex = Array.IndexOf(A, match);
+        if(aPersonIndex >= 0 ) {
+            int matchPerson = B[aPersonIndex];
+            //Console.WriteLine("A Person {0} at {1}", match, aPersonIndex);
+            //Console.WriteLine("Match Person {0}", matchPerson);
+            if(P[origin] == T[matchPerson])
+            {
+                SwapToy(T, origin, matchPerson);   
+                //Console.WriteLine("After swap {0}", match);
+                //Console.WriteLine("Pets {0}" , string.Join(" ", P));
+                //Console.WriteLine("Toys {0}", string.Join(" ", T)); 
+                return true;
+            }
+            else if( origin == matchPerson){
+                return false;
+            }
+            else
+            {
+                return TrySwap( P, T, A, B, origin, matchPerson);
+            }
+        }
+        else{
+            return false;
+        }
+
+    }
+
+
+
+    private void SwapToy(int[] T, int a, int b){
+        int temp = T[a];
+        T[a] = T[b];
+        T[b] = temp;
+    }
+}

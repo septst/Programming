@@ -1,0 +1,32 @@
+using System;
+using System.Linq;
+// you can also use other imports, for example:
+// using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int solution(int[] A) {
+
+        long totalSum = A.Sum();
+        long leftSum = A[0];
+        long rightSum = totalSum - leftSum;
+        long difference = Math.Abs(leftSum - rightSum);
+      
+        for(int i = 1 ; i < A.Length - 1; i++){
+            leftSum += A[i];
+            rightSum -= A[i];
+            long newDifference = Math.Abs(leftSum - rightSum);
+            difference = difference < newDifference ?
+                         difference :
+                         newDifference;
+            if(difference == 0)
+            {
+                break;
+            }
+        }
+
+        return (int)difference;
+    }
+}
